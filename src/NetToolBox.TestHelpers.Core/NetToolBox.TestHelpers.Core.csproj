@@ -1,11 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Library</OutputType>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
-    <ApplicationIcon />
-    <OutputTypeEx>library</OutputTypeEx>
-    <StartupObject />
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VersionPrefix>1.0.0</VersionPrefix>
+    <Description>Helper Functions for .NET core</Description>
+    <PackageProjectUrl>https://github.com/npnelson/NETToolBox</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>
