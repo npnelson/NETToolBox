@@ -19,8 +19,18 @@ namespace NetToolBox.TPLDataflow
             var action = new ActionBlock<TInput>(
                 async input =>
                 {
-                    var output = await func(input);
-                    await buffer.SendAsync(output);
+                    //TODO: wrap this in a try catch and only log any exceptions thrown and don't send on to next block
+                    try
+                    {
+                        var output = await func(input);
+                        await buffer.SendAsync(output);
+                    }
+                    catch (Exception ex )
+                    {
+
+                        throw;
+                    }
+                  
                 }, options);
 
             action.Completion.ContinueWith(
