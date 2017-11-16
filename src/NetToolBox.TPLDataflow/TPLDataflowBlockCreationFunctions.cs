@@ -25,7 +25,7 @@ namespace NetToolBox.TPLDataflow
                         var output = await func(input);
                         await buffer.SendAsync(output);
                     }
-                    catch (Exception ex )
+                    catch (Exception  )
                     {
 
                         throw;

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.0
+VisualStudioVersion = 15.0.27004.2009
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetToolBox.TestHelpers.EF", "src\NetToolBox.TestHelpers.EF\NetToolBox.TestHelpers.EF.csproj", "{F3DC2333-ABBC-47DA-AF60-C4FDEB029FA0}"
 EndProject
@@ -17,9 +17,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetToolBox.TestHelpers.Core
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetToolBox.Dapper", "src\NetToolBox.Dapper\NetToolBox.Dapper.csproj", "{5E2E5EDB-A38F-4A9A-AD0F-A384C2040E55}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetToolBox.TPLDataflow", "src\NetToolBox.TPLDataflow\NetToolBox.TPLDataflow.csproj", "{A7AD4566-56C8-43A6-B139-0F819F9BC8CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetToolBox.TPLDataflow", "src\NetToolBox.TPLDataflow\NetToolBox.TPLDataflow.csproj", "{A7AD4566-56C8-43A6-B139-0F819F9BC8CC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetToolBox.TestHarness", "test\NetToolBox.TestHarness\NetToolBox.TestHarness.csproj", "{A730F9E3-B540-4F40-B180-8A1E5D18AFAB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetToolBox.TestHarness", "test\NetToolBox.TestHarness\NetToolBox.TestHarness.csproj", "{A730F9E3-B540-4F40-B180-8A1E5D18AFAB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetToolBox.Queueing", "NetToolBox.Queueing\NetToolBox.Queueing.csproj", "{0E460C91-05B7-4139-8B53-7FCD23B094E6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,6 +57,10 @@ Global
 		{A730F9E3-B540-4F40-B180-8A1E5D18AFAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A730F9E3-B540-4F40-B180-8A1E5D18AFAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A730F9E3-B540-4F40-B180-8A1E5D18AFAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E460C91-05B7-4139-8B53-7FCD23B094E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E460C91-05B7-4139-8B53-7FCD23B094E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E460C91-05B7-4139-8B53-7FCD23B094E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E460C91-05B7-4139-8B53-7FCD23B094E6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,6 +73,7 @@ Global
 		{5E2E5EDB-A38F-4A9A-AD0F-A384C2040E55} = {12AB03DB-9732-409A-BFB0-5904F4CCB406}
 		{A7AD4566-56C8-43A6-B139-0F819F9BC8CC} = {12AB03DB-9732-409A-BFB0-5904F4CCB406}
 		{A730F9E3-B540-4F40-B180-8A1E5D18AFAB} = {88DF24BC-6748-4774-A16A-D2452FC9D9BF}
+		{0E460C91-05B7-4139-8B53-7FCD23B094E6} = {12AB03DB-9732-409A-BFB0-5904F4CCB406}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5283852D-A426-417F-B921-6DA8FED241E3}
