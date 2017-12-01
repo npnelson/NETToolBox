@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using NetToolBox.AspNet.Middleware;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,21 +37,20 @@ namespace NetToolBox.AspNet.Middleware
 
         }
     }
-
-    namespace Microsoft.AspNetCore.Builder
+}
+namespace Microsoft.AspNetCore.Builder
+{
+    public static class RequireAuthenticationExceptForLocalHostMiddlewareExtensions
     {
-        public static class RequireAuthenticationExceptForLocalHostMiddlewareExtensions
+        /// <summary>
+        /// Requires Authentication for anything after the call in the pipeline
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <returns></returns>
+        public static IApplicationBuilder UseRequireAuthentication(this IApplicationBuilder builder)
         {
-            /// <summary>
-            /// Requires Authentication for anything after the call in the pipeline
-            /// </summary>
-            /// <param name="builder"></param>
-            /// <returns></returns>
-            public static IApplicationBuilder UseRequireAuthentication(this IApplicationBuilder builder)
-            {
-                return builder.UseMiddleware<AuthenticationMiddleware>().UseMiddleware<RequireAuthenticationMiddleware>();
-            }
+            return builder.UseMiddleware<AuthenticationMiddleware>().UseMiddleware<RequireAuthenticationMiddleware>();
         }
     }
-
 }
+
