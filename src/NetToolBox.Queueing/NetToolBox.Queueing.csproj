@@ -1,10 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
+  <Import Project="..\..\version.props" />
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
-  <PropertyGroup>
-    <VersionPrefix>1.0.0</VersionPrefix>
+  <PropertyGroup>  
     <Description>Helper Functions for Azure Service Bus Queueing based on NETStandard</Description>
     <PackageProjectUrl>https://github.com/npnelson/NETToolBox</PackageProjectUrl>
   </PropertyGroup>
@@ -13,6 +12,6 @@
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\src\NetToolBox.Core\NetToolBox.Core.csproj" />
+    <ProjectReference Include="..\NetToolBox.Core\NetToolBox.Core.csproj" />
   </ItemGroup>
 </Project>

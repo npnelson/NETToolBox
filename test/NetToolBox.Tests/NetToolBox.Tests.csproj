@@ -14,8 +14,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\NetToolBox.AspNet\NetToolBox.AspNet.csproj" />
+    <ProjectReference Include="..\..\src\NetToolBox.Queueing\NetToolBox.Queueing.csproj" />
     <ProjectReference Include="..\..\src\NetToolBox.TestHelpers.Core\NetToolBox.TestHelpers.Core.csproj" />
     <ProjectReference Include="..\..\src\NetToolBox.TestHelpers.EF\NetToolBox.TestHelpers.EF.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.AspNetCore.Http">
+      <HintPath>..\..\..\..\..\..\..\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.aspnetcore.http\2.0.1\lib\netstandard2.0\Microsoft.AspNetCore.Http.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>
