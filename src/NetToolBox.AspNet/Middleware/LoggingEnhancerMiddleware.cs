@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.Logging;
+using NetToolBox.AspNet.Middleware;
 using NetToolBox.Core;
 using System;
 using System.Collections.Generic;
@@ -71,21 +72,19 @@ namespace NetToolBox.AspNet.Middleware
                     loggingScope.Add(new KeyValuePair<string, object>(headerName, header.Value.ToString()));
                 }
             }
-        }
-   
-
-    namespace Microsoft.AspNetCore.Builder
+        }  
+}
+namespace Microsoft.AspNetCore.Builder
+{
+    /// <summary>
+    /// Adds several desirable properties to MVC logging (host, application version, clientrequestid, correlationid, user agent, userID/Name (if configured), remoteendpoint
+    /// </summary>
+    public static class LoggingEnhancerMiddlewareExtensions
     {
-        /// <summary>
-        /// Adds several desirable properties to MVC logging (host, application version, clientrequestid, correlationid, user agent, userID/Name (if configured), remoteendpoint
-        /// </summary>
-        public static class LoggingEnhancerMiddlewareExtensions
+        public static IApplicationBuilder UseLoggingEnhancer(this IApplicationBuilder builder)
         {
-            public static IApplicationBuilder UseLoggingEnhancer(this IApplicationBuilder builder)
-            {
-                return builder.UseMiddleware<LoggingEnhancerMiddleware>();
-            }
+            return builder.UseMiddleware<LoggingEnhancerMiddleware>();
         }
     }
-
 }
+
