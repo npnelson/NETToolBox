@@ -10,5 +10,8 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.0.1" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NetToolBox.Core\NetToolBox.Core.csproj" />
+  </ItemGroup>
 
 </Project>
