@@ -37,17 +37,19 @@ namespace NetToolBox.AspNet.Middleware
         }
     }
 
-
-    public static class RequireAuthenticationExceptForLocalHostMiddlewareExtensions
+    namespace Microsoft.AspNetCore.Builder
     {
-        /// <summary>
-        /// Requires Authentication for anything after the call in the pipeline
-        /// </summary>
-        /// <param name="builder"></param>
-        /// <returns></returns>
-        public static IApplicationBuilder UseRequireAuthenticationExceptForLocalHostMiddleware(this IApplicationBuilder builder)
+        public static class RequireAuthenticationExceptForLocalHostMiddlewareExtensions
         {
-            return builder.UseMiddleware<AuthenticationMiddleware>().UseMiddleware<RequireAuthenticationMiddleware>();
+            /// <summary>
+            /// Requires Authentication for anything after the call in the pipeline
+            /// </summary>
+            /// <param name="builder"></param>
+            /// <returns></returns>
+            public static IApplicationBuilder UseRequireAuthentication(this IApplicationBuilder builder)
+            {
+                return builder.UseMiddleware<AuthenticationMiddleware>().UseMiddleware<RequireAuthenticationMiddleware>();
+            }
         }
     }
 

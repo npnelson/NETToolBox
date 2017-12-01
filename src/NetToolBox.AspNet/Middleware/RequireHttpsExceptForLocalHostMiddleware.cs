@@ -37,17 +37,19 @@ namespace NetToolBox.AspNet.Middleware
         }
     }
 
-
-    public static class RequireHttpsExceptForLocalHostMiddlewareExtensions
+    namespace Microsoft.AspNetCore.Builder
     {
-        /// <summary>
-        /// This is useful in webapi scenarioes where you want to require authentication except for when testing on localhost
-        /// </summary>
-        /// <param name="builder"></param>
-        /// <returns></returns>
-        public static IApplicationBuilder UseRequireHttpsExceptForLocalHostMiddleware(this IApplicationBuilder builder)
+        public static class RequireHttpsExceptForLocalHostMiddlewareExtensions
         {
-            return builder.UseMiddleware<RequireHttpsExceptForLocalHostMiddleware>();
+            /// <summary>
+            /// This is useful in webapi scenarioes where you want to require authentication except for when testing on localhost
+            /// </summary>
+            /// <param name="builder"></param>
+            /// <returns></returns>
+            public static IApplicationBuilder UseRequireHttpsExceptForLocalHost(this IApplicationBuilder builder)
+            {
+                return builder.UseMiddleware<RequireHttpsExceptForLocalHostMiddleware>();
+            }
         }
     }
 }
