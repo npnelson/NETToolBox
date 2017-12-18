@@ -1,4 +1,5 @@
 ﻿using Microsoft.Azure.ServiceBus;
+using Microsoft.Azure.ServiceBus.InteropExtensions;
 using Microsoft.Extensions.Logging;
 using NetToolBox.Core;
 using NetToolBox.Queueing.Abstractions;
@@ -67,7 +68,15 @@ namespace NetToolBox.Queueing
         {
             using (var scope = _tracer.BeginScope("{MessageID}", message.MessageId))
             {
-                var msgBody = Encoding.UTF8.GetString(message.Body);
+                string msgBody;
+                if (message.Body == null) //messages sent from legacy client
+                {
+                    msgBody = message.GetBody<string>();
+                }
+                else
+                {
+                    msgBody = Encoding.UTF8.GetString(message.Body);
+                }
                 var curlyIndex = msgBody.IndexOf('{');
                 if (curlyIndex >= 0)
                 {

@@ -17,6 +17,12 @@ namespace NetToolBox.TestHelpers.EF
             return retval;
         }
 
+        public static DbContextOptions<T> CreateLocalDbContextOptions<T>(string dbName) where T:DbContext
+        {
+            var retval = GetDbContextOptionsImpl<T>(dbName);
+            return retval;
+        }
+
         private static void CreateDatabase<T>(string dbName, T context = null) where T : DbContext
         {
             if (context == null)
