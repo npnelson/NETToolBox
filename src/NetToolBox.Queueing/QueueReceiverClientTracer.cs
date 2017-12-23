@@ -22,36 +22,36 @@ namespace NetToolBox.Queueing
         private static readonly Action<ILogger, string, string, Exception> _exceptionRequeuingMessage = LoggerMessage.Define<string, string>(LogLevel.Error, 5006, "Exception while attempting to requeue message QueueName={QueueName} MessageID={MessageID}");
         public void ReceivedMessage(string queueName, Message msg)
         {
-            _receivedMessage(_logger, queueName, msg.MessageId, msg.CorrelationId, null);
+            _receivedMessage(_logger, queueName, msg?.MessageId, msg?.CorrelationId, null);
         }
 
         public void CompletedMessage(string queueName, Message msg)
         {
-            _completedMessage(_logger, queueName, msg.MessageId, msg.CorrelationId, null);
+            _completedMessage(_logger, queueName, msg?.MessageId, msg?.CorrelationId, null);
         }
 
         public void ExceptionMessage(string queueName, Message msg, Exception ex)
         {
-            _exceptionMessage(_logger, queueName, msg.MessageId, ex);
+            _exceptionMessage(_logger, queueName, msg?.MessageId, ex);
         }
 
         public void ExceptionDeserializingMessage(string queueName, Message msg, Exception ex)
         {
-            _exceptionDeserializingMessage(_logger, queueName, msg.MessageId, ex);
+            _exceptionDeserializingMessage(_logger, queueName, msg?.MessageId, ex);
         }
 
         public void RequeuingMessageExpired(string queueName, Message msg)
         {
-            _expiredMessage(_logger, queueName, msg.MessageId, null);
+            _expiredMessage(_logger, queueName, msg?.MessageId, null);
         }
         public void RequeuingMessageCompleted(string queueName, Message msg)
         {
-            _requeueingMessage(_logger, queueName, msg.MessageId, msg.UserProperties["InitialMessageId"].ToString(), null);
+            _requeueingMessage(_logger, queueName, msg?.MessageId, msg?.UserProperties["InitialMessageId"]?.ToString(), null);
         }
 
         public void ExceptionRequeuingMessage(string queueName, Message msg, Exception ex)
         {
-            _exceptionRequeuingMessage(_logger, queueName, msg.MessageId, ex);
+            _exceptionRequeuingMessage(_logger, queueName, msg?.MessageId, ex);
         }
     }
 }
