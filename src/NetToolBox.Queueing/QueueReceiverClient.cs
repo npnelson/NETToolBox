@@ -72,6 +72,7 @@ namespace NetToolBox.Queueing
                 if (message.Body == null) //messages sent from legacy client
                 {
                     msgBody = message.GetBody<string>();
+                    message.Body = Encoding.UTF8.GetBytes(msgBody); //set the message body in case we need to clone it later
                 }
                 else
                 {
