@@ -19,6 +19,7 @@
     <ProjectReference Include="..\..\src\NetToolBox.Queueing\NetToolBox.Queueing.csproj" />
     <ProjectReference Include="..\..\src\NetToolBox.TestHelpers.Core\NetToolBox.TestHelpers.Core.csproj" />
     <ProjectReference Include="..\..\src\NetToolBox.TestHelpers.EF\NetToolBox.TestHelpers.EF.csproj" />
+    <ProjectReference Include="..\..\src\NetToolBox.TPLDataflow\NetToolBox.TPLDataflow.csproj" />
   </ItemGroup>
 
   <ItemGroup>
