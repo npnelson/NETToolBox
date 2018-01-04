@@ -15,7 +15,13 @@ namespace NetToolBox.TPLDataflow
         private readonly ConcurrentDictionary<T,bool> _dictionary=new ConcurrentDictionary<T,bool>(); //we don't use the value part of the dictionary, but want to ensure we only have one entry
         public ActionBlockPreventDuplicates(Action<T> action,ExecutionDataflowBlockOptions dataflowBlockOptions)
         {
-            _innerBlock = new ActionBlock<T>(action, dataflowBlockOptions);
+            _innerBlock = new ActionBlock<T>(GetActionWrapper(action), dataflowBlockOptions);
+            _innerDataFlowBlock = (IDataflowBlock)_innerBlock;
+            _innerTargetBlock = _innerBlock;
+        }
+        public ActionBlockPreventDuplicates(Func<T, Task> action, ExecutionDataflowBlockOptions dataflowBlockOptions)
+        {
+            _innerBlock = new ActionBlock<T>(GetActionWrapper(action), dataflowBlockOptions);
             _innerDataFlowBlock = (IDataflowBlock)_innerBlock;
             _innerTargetBlock = _innerBlock;
         }
@@ -78,12 +84,7 @@ namespace NetToolBox.TPLDataflow
 
         }
 
-        public ActionBlockPreventDuplicates(Func<T,Task> action, ExecutionDataflowBlockOptions dataflowBlockOptions)
-        {
-            _innerBlock = new ActionBlock<T>(action, dataflowBlockOptions);
-            _innerDataFlowBlock = (IDataflowBlock)_innerBlock;
-            _innerTargetBlock = _innerBlock;
-        }
+       
 
         public Task Completion => _innerBlock.Completion;
 
