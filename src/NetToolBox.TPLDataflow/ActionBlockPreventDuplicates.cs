@@ -10,18 +10,18 @@ namespace NetToolBox.TPLDataflow
     public class ActionBlockPreventDuplicates<T> : ITargetBlock<T>
     {
 
-        private readonly ActionBlock<T> StartBlock;
+        private readonly BufferBlock<T> StartBlock;
         private readonly ActionBlock<T> FinalBlock;
         private readonly ConcurrentDictionary<T, bool> _dictionary = new ConcurrentDictionary<T, bool>(); //we don't use the value part of the dictionary, but want to ensure we only have one entry
-        private readonly int _maxThreads;
-        private TaskCompletionSource<bool> _tcs = new TaskCompletionSource<bool>(); //used to delay acceptance of items if finalblock is full
-        private readonly object _tcsLock = new object();
+      
+
 
         public ActionBlockPreventDuplicates(Action<T> action, ExecutionDataflowBlockOptions dataflowBlockOptions)
         {
-            _maxThreads = dataflowBlockOptions.MaxDegreeOfParallelism;
-            StartBlock = new ActionBlock<T>(async x => await ProcessStartAsync(x));
-            FinalBlock = new ActionBlock<T>(x => {
+           
+            StartBlock = new BufferBlock<T>( new ExecutionDataflowBlockOptions { BoundedCapacity = dataflowBlockOptions.MaxDegreeOfParallelism });
+            FinalBlock = new ActionBlock<T>(x =>
+            {
                 try
                 {
                     action(x);
@@ -30,14 +30,18 @@ namespace NetToolBox.TPLDataflow
                 {
                     ProcessEnd(x);
                 }
-              ; }, dataflowBlockOptions);
+              ;
+            }, dataflowBlockOptions);
+            CommonSetup();
         }
+
 
         public ActionBlockPreventDuplicates(Func<T, Task> action, ExecutionDataflowBlockOptions dataflowBlockOptions)
         {
-            _maxThreads = dataflowBlockOptions.MaxDegreeOfParallelism;
-            StartBlock = new ActionBlock<T>(async x => await ProcessStartAsync(x));
-            FinalBlock = new ActionBlock<T>(async x => {
+          
+            StartBlock = new BufferBlock<T>(new ExecutionDataflowBlockOptions { BoundedCapacity = dataflowBlockOptions.MaxDegreeOfParallelism });
+            FinalBlock = new ActionBlock<T>(async x =>
+            {
                 try
                 {
                     await action(x);
@@ -48,46 +52,26 @@ namespace NetToolBox.TPLDataflow
                 }
                ;
             }, dataflowBlockOptions);
+            CommonSetup();
         }
 
-
-
-        private  Task ProcessStartAsync(T item)
+        private void CommonSetup()
         {
-            bool added;
-            lock (_tcsLock)
-            {
-                if (_dictionary.Count == _maxThreads)
-                {
-                    if (_tcs.Task.IsCompleted)
-                    {
-                        _tcs = new TaskCompletionSource<bool>();
-                        _tcs.Task.Co
-                    }
-                    return _tcs.Task;
-                }
-                added = _dictionary.TryAdd(item, false);
-            }
-            if (added)
-            {
-                return FinalBlock.SendAsync(item);
-            }
-            else
-            {
-                return Task.CompletedTask;
-            }
-            
+            StartBlock.LinkTo(FinalBlock, item => ProcessStart(item)); //this will only forward items that aren't inflight
+            StartBlock.LinkTo(DataflowBlock.NullTarget<T>()); //need a null target to deliver false messages to
+        }
+
+        private bool ProcessStart(T item)
+        {
+            var added = _dictionary.TryAdd(item, false);
+            return added;           
         }
 
         private void ProcessEnd(T item)
         {
-            lock (_tcsLock)
             {
                 _dictionary.TryRemove(item, out var val); //we don't care if it was successful or not, tryremove will ensure the item isn't in the dictionary once completed
-                if (_dictionary.Count == _maxThreads - 1) //we just opened up a spot, complete the task to open up the startblock
-                {
-                    _tcs.TrySetResult(true);
-                }
+
             }
         }
 
@@ -96,18 +80,18 @@ namespace NetToolBox.TPLDataflow
         private async Task CompletionTask()
         {
             //some interesting threading issues here, we need to do it this way to ensure pipeline completes
-            
+
             await StartBlock.Completion;
             FinalBlock.Complete();
             await FinalBlock.Completion;
         }
-    
 
-   
+
+
         public void Complete()
-        {           
+        {
             StartBlock.Complete();
-            
+
         }
 
         public void Fault(Exception exception)
@@ -117,7 +101,7 @@ namespace NetToolBox.TPLDataflow
 
         public DataflowMessageStatus OfferMessage(DataflowMessageHeader messageHeader, T messageValue, ISourceBlock<T> source, bool consumeToAccept)
         {
-            return ((ITargetBlock<T>)StartBlock).OfferMessage(messageHeader,messageValue,source,consumeToAccept);
+            return ((ITargetBlock<T>)StartBlock).OfferMessage(messageHeader, messageValue, source, consumeToAccept);
         }
     }
     //public class ActionBlockPreventDuplicates<T>:ITargetBlock<T>
