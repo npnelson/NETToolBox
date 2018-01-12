@@ -71,7 +71,6 @@ namespace NetToolBox.TPLDataflow
         {
             {
                 _dictionary.TryRemove(item, out var val); //we don't care if it was successful or not, tryremove will ensure the item isn't in the dictionary once completed
-
             }
         }
 
