@@ -15,9 +15,12 @@ namespace NetToolBox.AspNet.Middleware
     {
 
         private readonly RequestDelegate _next;
-        public RequireAuthenticationMiddleware(RequestDelegate next)
+        private readonly bool _bypassForLocalHost;
+
+        public RequireAuthenticationMiddleware(RequestDelegate next,bool bypassForLocalHost)
         {
             _next = next;
+            _bypassForLocalHost = bypassForLocalHost;
         }
 
         public async Task Invoke(HttpContext context)
@@ -26,7 +29,7 @@ namespace NetToolBox.AspNet.Middleware
             var identities = context?.User?.Identities;
             if (identities != null) anyAuthenticated = identities.Any(x => x.IsAuthenticated);
 
-            if ( !anyAuthenticated)
+            if ( !anyAuthenticated & !(_bypassForLocalHost && AspNetHelperFunctions.IsRunningOnLocalHost(context)))
             {               
                 context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
             }
@@ -40,7 +43,7 @@ namespace NetToolBox.AspNet.Middleware
 }
 namespace Microsoft.AspNetCore.Builder
 {
-    public static class RequireAuthenticationExceptForLocalHostMiddlewareExtensions
+    public static class RequireAuthenticationMiddlewareExtensions
     {
         /// <summary>
         /// Requires Authentication for anything after the call in the pipeline
@@ -49,7 +52,17 @@ namespace Microsoft.AspNetCore.Builder
         /// <returns></returns>
         public static IApplicationBuilder UseRequireAuthentication(this IApplicationBuilder builder)
         {
-            return builder.UseMiddleware<AuthenticationMiddleware>().UseMiddleware<RequireAuthenticationMiddleware>();
+            return builder.UseMiddleware<AuthenticationMiddleware>().UseMiddleware<RequireAuthenticationMiddleware>(false);
+        }
+        /// <summary>
+        /// Requires Authentication unless browser is connecting on localhost
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <returns></returns>
+
+        public static IApplicationBuilder UseRequireAuthenticationExceptForRunningOnLocalHost(this IApplicationBuilder builder)
+        {
+            return builder.UseMiddleware<AuthenticationMiddleware>().UseMiddleware<RequireAuthenticationMiddleware>(true);
         }
     }
 }
