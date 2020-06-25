@@ -2,7 +2,15 @@
   <Import Project="..\..\version.props" />
   <PropertyGroup>   
     <TargetFramework>netstandard2.0</TargetFramework>  
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+  </ItemGroup>
+
   <PropertyGroup>   
     <Description>Helper Functions for .NET core</Description>
     <PackageProjectUrl>https://github.com/npnelson/NETToolBox</PackageProjectUrl>
